@@ -1,0 +1,11 @@
+{
+  "name": "aml-check-api",
+  "version": "1.0.0",
+  "description": "AML Check API",
+  "author": "Elmer Labandero",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "serverless-python-requirements": "^5.1.0"
+  }
+}
