@@ -26,10 +26,22 @@ provider:
   name: aws
   runtime: python3.8
   timeout: 60
-# you can overwrite defaults here
-#  stage: dev
-#  region: us-east-1
+  stage: ${opt:stage, self:custom.defaultStage}
+  profile: ${self:custom.profiles.${opt:stage, self:provider.stage, 'dev'}}
+  region: us-east-2
 
+
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - s3:*
+      Resource: '*'
+          
+custom:
+  defaultStage: dev
+  profiles:
+    dev: devProfile
+    prod: prodProfile      
 # you can add statements to the Lambda function's IAM Role here
 #  iamRoleStatements:
 #    - Effect: "Allow"
@@ -47,10 +59,7 @@ provider:
 #            - "/*"
 
 # you can define service wide environment variables here
-  environment:
-    REGION_NAME: 'us-east-2'  
-    ACCESS_KEY: 'AKIAYRB33WU4TRLLF7X2'  
-    SECRET_KEY: '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'
+
 
 # you can add packaging information here
 #package:
@@ -70,7 +79,14 @@ functions:
       - http:
           path: amlcheck
           method: get
+          cors: true
 
+#resources:
+#  Resources:
+#    SanctionList:
+#      Type: AWS::S3::Bucket
+#      Properties:
+#        BucketName: opendax-aml-bucket
 
 # you can add CloudFormation resource templates here
 #resources:
