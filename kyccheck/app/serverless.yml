@@ -35,9 +35,10 @@ provider:
     - Effect: "Allow"
       Action:
         - s3:*
-      Resource: 'arn:aws:s3:::opendax-aml-bucket/*'
+      Resource: 'arn:aws:s3:::${self:custom.bucket}/*'
           
 custom:
+  bucket: opendax-aml-bucket  
   defaultStage: dev
   profiles:
     dev: devProfile
@@ -80,6 +81,8 @@ functions:
           path: amlcheck
           method: get
           cors: true
+    environment:
+      BUCKET: ${self:custom.bucket}
 
 #resources:
 #  Resources:
