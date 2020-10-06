@@ -8,25 +8,23 @@ nonsdn_lines = ''
 
 def read_s3_file(fname):
     # get a handle on s3
-    session = boto3.Session(
-                    aws_access_key_id=os.environ['ACCESS_KEY'],
-                    aws_secret_access_key=os.environ['SECRET_KEY'],
-                    region_name=os.environ['REGION_NAME'])
-                    
-    s3 = session.resource('s3')
 
-    # get a handle on the bucket that holds your file
-    bucket = s3.Bucket('opendax-aml-bucket') 
+    s3 = boto3.resource('s3')
 
-    # get a handle on the object you want (i.e. your file)
-    obj = bucket.Object(key=fname) 
-
+    obj = s3.Object(
+        bucket_name='opendax-aml-bucket',
+        key=fname
+    )
     # get the object
-    response = obj.get()
-    print("reading the contents of " + fname + "...")
-    lines = response['Body'].read()
-    print("finished reading..")
-    return lines.decode().lower()
+    try:
+        response = obj.get()
+        print("reading the contents of " + fname + "...")
+        lines = response['Body'].read()
+        print("finished reading..")
+        return lines.decode().lower()
+    except BaseException as e:
+        print(str(e))
+        return "Error: " + str(e)
 
 def amlcheck(event, context):
     global sdn_lines
@@ -44,9 +42,27 @@ def amlcheck(event, context):
 
     hits = 0
 
+    responseObject = {}
+    responseObject['headers'] = {}
+    responseObject['headers']['Access-Control-Allow-Origin']= '*'
+    responseObject['headers']['Content-type'] = 'application/json'
+    transactionResponse = {}
+ 
     if sdn_lines == '' or reread == 'true':
+        has_error = False
         nonsdn_lines = read_s3_file('cons_prim.csv')
-        sdn_lines = read_s3_file('sdnlist.txt')
+        if nonsdn_lines.startswith("Error: "):
+            transactionResponse['message'] = 'Internal Server Error. ' + nonsdn_lines
+            has_error = True
+        else:
+            sdn_lines = read_s3_file('sdnlist.txt')
+            if sdn_lines.startswith("Error: "):
+                transactionResponse['message'] = 'Internal Server Error. ' + sdn_lines
+                has_error = True
+        if has_error:
+            responseObject['statusCode'] = 500
+            responseObject['body'] = json.dumps(transactionResponse)
+            return responseObject
 
     if name != "None": 
         match_sdn = find_near_matches(name.lower(),sdn_lines, max_l_dist=3)
@@ -69,13 +85,9 @@ def amlcheck(event, context):
         print("Email Check Hits = ", hit)
         hits += hit
 
-    transactionResponse = {}
     transactionResponse['hits'] = str(hits)
 
-    responseObject = {}
     responseObject['statusCode'] = 200
-    responseObject['headers'] = {}
-    responseObject['headers']['Content-type'] = 'application/json'
     responseObject['body'] = json.dumps(transactionResponse)
 
     return responseObject
