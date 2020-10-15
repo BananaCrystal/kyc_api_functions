@@ -1,11 +1,22 @@
 {
   "name": "aml-check-api",
   "version": "1.0.0",
-  "description": "AML Check API",
+  "description": "Banana Crystal AML Check API. Serverless function to check name,id, and email against ofac sanction lists",
   "author": "Elmer Labandero",
-  "license": "MIT",
-  "dependencies": {},
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/esthervillars/bananacrystal_functions.git"
+  },
+  "scripts": {
+    "package": "sls package -s dev",
+    "deploy:dev": "sls deploy -p bananacrystal-dev -s dev"
+  },
+  "dependencies": {
+    "fs-extra": "^9.0.1"
+  },
   "devDependencies": {
+    "serverless-deployment-bucket": "^1.1.2",
     "serverless-python-requirements": "^5.1.0"
   }
 }
