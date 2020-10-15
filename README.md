@@ -27,7 +27,15 @@ To update/refresh the list
 3. Upload the files (sdnlist.txt and cons_prim.csv) to the s3 bucket `opendax-aml-bucket-<stage/env>`
 4. Clear the bucket/file cache
 
-## Deployments
+## Continous Integration
+
+Merges to develop auto-deploy to dev and merges to master auto-deploy to production.
+
+Branches        Environment       AWS Account/Profile
+develop         dev                bananacrystal-dev
+master          prod               bananacrystal-prod
+
+## Manual Deployments
 
 1. Go to the root of the respective function (e.g. cd kyccheck/app) 
 2. serverless deploy --stage <dev|prod> --profile <yourname-dev|your-name-prod>  --region <us-east-2|your-region>
