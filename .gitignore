@@ -3,3 +3,17 @@
 
 # node modules
 node_modules/*
+
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Serverless directories
+.serverless
+

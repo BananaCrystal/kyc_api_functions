@@ -1,22 +1,16 @@
-# bananacrystal_functions
+# Banana Crystal Know Your Customer (KYC) Serverless Functions
 
-Banana Crystal Serverless Functions
-
-## Environments
-
-Configure your AWS profiles, see [Environments](https://github.com/BananaCrystal/environments)
-
-## Functions
-
-### kyccheck
+#aml-check
 
 Serverless function that checks whether a person's attribute (first name, last name, etc) is part of a sanctioned list to meet the Know Your Customer (KYC) check requirements.
 
-Requirements
+## Requirements
 
 * Python
 * Node
 * [Serverless](https://www.serverless.com/framework/docs/getting-started/)
+
+## Updates
 
 To update/refresh the list
 
@@ -26,6 +20,22 @@ To update/refresh the list
    b. Consolidated Sanctions List (in CSV format) [cons_prim.csv](https://www.treasury.gov/ofac/downloads/consolidated/cons_prim.csv)
 3. Upload the files (sdnlist.txt and cons_prim.csv) to the s3 bucket `opendax-aml-bucket-<stage/env>`
 4. Clear the bucket/file cache
+
+
+## Deployments
+
+Merges to develop auto-deploy to dev 
+Merges to master auto-deploy to production
+
+## Environments
+
+Configure your AWS profiles, see [Environments](https://github.com/BananaCrystal/environments)
+
+## Functions
+
+### kyccheck
+
+See (kycheck readme)[kyccheck/app/REAME.md]
 
 ## Continous Integration
 

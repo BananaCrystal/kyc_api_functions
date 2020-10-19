@@ -1,0 +1,21 @@
+version: 0.1
+phases:
+  install:
+    commands:
+      - apt-get update
+      - apt-get install zip
+      - npm install -g serverless
+  pre_build:
+    commands:
+      - npm install
+      - pip3 install virtualenv
+      - virtualenv env
+      - . env/bin/activate
+      - pip3 install -r requirements.txt
+  build:
+    commands:
+      - serverless install serverless-python-requirements
+      - serverless install serverless-deployment-bucket
+      - serverless deploy --stage $ENVIRONMENT_STAGE   --region $AWS_REGION
+  # post_build:
+    # commands:
