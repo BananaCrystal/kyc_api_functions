@@ -12,7 +12,7 @@ def read_s3_file(fname):
     s3 = boto3.resource('s3')
 
     obj = s3.Object(
-        bucket_name='opendax-aml-bucket',
+        bucket_name=os.getenv('BUCKET'),
         key=fname
     )
     # get the object

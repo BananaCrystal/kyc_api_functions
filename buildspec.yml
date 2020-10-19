@@ -1,21 +1,28 @@
-version: 0.1
+version: 0.2
 phases:
   install:
     commands:
       - apt-get update
       - apt-get install zip
-      - npm install -g serverless
+      - npm install --silent --no-progress -g npm
+      - npm install --silent --no-progress -g serverless
   pre_build:
     commands:
-      - npm install
-      - pip3 install virtualenv
-      - virtualenv env
-      - . env/bin/activate
+      -  npm install --silent --no-progress
+      # - pip3 install virtualenv
+      # - virtualenv env
+      # - . env/bin/activate
       - pip3 install -r requirements.txt
   build:
     commands:
-      - serverless install serverless-python-requirements
-      - serverless install serverless-deployment-bucket
-      - serverless deploy --stage $ENVIRONMENT_STAGE   --region $AWS_REGION
+      - sls plugin install -n serverless-python-requirements
+      - sls plugin install -n serverless-deployment-bucket
+      - serverless package --stage $ENVIRONMENT_STAGE --region $AWS_REGION
   # post_build:
     # commands:
+  artifacts:
+    files:
+      - '**/*''
+      - serverless.yml
+      name: kyc_api_functions-$ENVIRONMENT_STAGE-$(date +%Y-%m-%d)
+      

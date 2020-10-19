@@ -1,12 +1,12 @@
 {
-  "name": "aml-check-api",
+  "name": "bananacrystal-kyc-api",
   "version": "1.0.0",
   "description": "Banana Crystal KYC API. Serverless function know your customer verifications",
   "author": "Elmer Labandero",
   "license": "UNLICENSED",
   "repository": {
     "type": "git",
-    "url": "https://github.com/esthervillars/bananacrystal_functions.git"
+    "url": "https://github.com/BananaCrystal/functions.git"
   },
   "scripts": {
     "package:dev": "sls package -s dev",
@@ -14,10 +14,12 @@
   },
   "dependencies": {
     "fs-extra": "^9.0.1",
-    "serverless-deployment-bucket": "^1.1.2",
-    "serverless-python-requirements": "^5.1.0"
+    "serverless-deployment-bucket": "^1.1.2"
   },
   "engines": {
     "node": ">=12.19<13"
+  },
+  "devDependencies": {
+    "serverless-python-requirements": "^5.1.0"
   }
 }
