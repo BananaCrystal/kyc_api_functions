@@ -30,7 +30,7 @@ provider:
 #   artifact: .serverless/bananacrystal-kyc-api.zip
 
 custom:
-  bucket: bananacrystal-kyc-api-aml-bucket-${opt:stage, self:provider.stage, 'dev'}} 
+  bucket: bananacrystal-kyc-api-aml-bucket-${opt:stage, self:provider.stage, 'dev'}
   defaultStage: dev
   profiles:
     dev: bananacrystal-dev
