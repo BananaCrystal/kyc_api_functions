@@ -35,10 +35,7 @@ def amlcheck(event, context):
     email = event['queryStringParameters'].get('email', "None")
     reread = event['queryStringParameters'].get('reread', "None")
 
-    print("Name = ", name)
-    print("ID No = ", idno)
-    print("Email = ", email)
-    print("Re-read = ", reread)
+    print("Name = ", name, "ID No = ", idno, "Email = ", email, "Re-read = ", reread)
 
     hits = 0
 
@@ -65,8 +62,8 @@ def amlcheck(event, context):
             return responseObject
 
     if name != "None": 
-        match_sdn = find_near_matches(name.lower(),sdn_lines, max_l_dist=3)
-        match_nonsdn = find_near_matches(name.lower(),nonsdn_lines, max_l_dist=3)
+        match_sdn = find_near_matches(name.lower(),sdn_lines, max_l_dist=2)
+        match_nonsdn = find_near_matches(name.lower(),nonsdn_lines, max_l_dist=2)
         hit = len(match_sdn) + len(match_nonsdn)
         print("Name Check Hits = ", hit)
         hits += hit
