@@ -60,7 +60,7 @@ def amlcheck(event, context):
             responseObject['statusCode'] = 500
             responseObject['body'] = json.dumps(transactionResponse)
             return responseObject
-
+    # max_l_dist of 3 results in gateway timeout (limit is 30 seconds)
     if name != "None": 
         match_sdn = find_near_matches(name.lower(),sdn_lines, max_l_dist=2)
         match_nonsdn = find_near_matches(name.lower(),nonsdn_lines, max_l_dist=2)
