@@ -8,18 +8,16 @@ phases:
       - npm install --silent --no-progress -g serverless
   pre_build:
     commands:
-      -  npm install --silent --no-progress
-      # - pip3 install virtualenv
-      # - virtualenv env
-      # - . env/bin/activate
+      - npm install --silent --no-progress
       - pip3 install -r requirements.txt
   build:
     commands:
       - sls plugin install -n serverless-python-requirements
       - sls plugin install -n serverless-deployment-bucket
       - serverless package --stage $ENVIRONMENT_STAGE --region $AWS_REGION
-  # post_build:
-    # commands:
+  post_build:
+    commands:
+      - serverless deploy --stage $ENVIRONMENT_STAGE --region $AWS_REGION
   artifacts:
     files:
       - '**/*''
